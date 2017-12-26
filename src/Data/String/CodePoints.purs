@@ -60,6 +60,13 @@ codePointFromInt n = Nothing
 codePointToInt :: CodePoint -> Int
 codePointToInt (CodePoint n) = n
 
+codePointToChar :: CodePoint -> Maybe Char
+codePointToChar (CodePoint n) | 0 <= n && n <= 0xFFFF = Just (Char.fromCharCode n)
+codePointToChar n = Nothing
+
+codePointFromChar :: Char -> CodePoint
+codePointFromChar = CodePoint <<< Char.toCharCode
+
 unsurrogate :: Int -> Int -> CodePoint
 unsurrogate lead trail = CodePoint ((lead - 0xD800) * 0x400 + (trail - 0xDC00) + 0x10000)
 
